@@ -576,6 +576,9 @@ $setGlobal cm_magicc_calibrateTemperature2000  uncalibrated  !! def=uncalibrated
 $setGlobal cm_magicc_config  OLDDEFAULT    !! def = OLDDEFAULT
 $setGlobal cm_magicc_temperatureImpulseResponse  off           !! def = off
 
+$setGlobal c15_pythonpath  /p/projects/piam/abrahao/piam-scm-interface/venv_scm/bin/python3           !! def = python
+$setGlobal c15_scminterfacepath  /p/projects/piam/abrahao/piam-scm-interface/run_REMIND.py    !! def = none
+
 $setGlobal cm_damage_DiceLike_specification  HowardNonCatastrophic   !! def = HowardNonCatastrophic
 
 $setglobal cm_CES_configuration  stat_off-indu_fixed_shares-buil_simple-tran_complex-POP_pop_SSP2-GDP_gdp_SSP2-Kap_debt_limit-Reg_62eff8f7   !! this will be changed by start_run()

@@ -14,18 +14,14 @@
 *' @code
 *** Generate MAGICC scenario file (repurposed for other OpenSCM models by the interface script)
 $include "./core/magicc.gms";
-* *** execute MAGICC (this is cheap enough, ~2s)
-* Execute "Rscript run_magicc.R";
-* TODO: these should be defined in the configuration file
-$setGlobal c_pythonpath "/p/projects/piam/abrahao/piam-scm-interface/venv_scm/bin/python3"
-$setGlobal c_scminterfacepath "/p/projects/piam/abrahao/piam-scm-interface/run_REMIND.py"
+* *** execute the SCM interface python script (this is still cheap enough, ~10s)
 
+display "SCMInterface: Executing python script:"
+display "%c15_pythonpath% %c15_scminterfacepath%"
 * *** execute the OpenSCM interface script using the defined python interpreter. This is more expensive than default MAGICC at the moment (~10s) but stores all output in scm_output.csv/rds
-Execute "%c_pythonpath% %c_scminterfacepath%"
+Execute "%c15_pythonpath% %c15_scminterfacepath%"
 *** read in results
-* Execute "Rscript read_DAT_TOTAL_ANTHRO_RF.R";
 Execute_Loadpoint 'p15_forc_magicc'  p15_forc_magicc;
-* Execute "Rscript read_DAT_SURFACE_TEMP.R";
 Execute_Loadpoint 'p15_magicc_temp' pm_globalMeanTemperature = pm_globalMeanTemperature;
 *** MAGICC only reports unitl 2300: TODO: This can be set to only years in the run on OpenSCM
 pm_globalMeanTemperature(tall)$(tall.val gt 2300) = 0;
