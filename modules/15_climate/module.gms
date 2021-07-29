@@ -8,7 +8,7 @@
 
 *' @title climate
 *'
-*' @description  The 15_climate module calculates the resulting climate variables using either MAGICC6.4 or a stylized box model that can be used within the optimization routine.
+*' @description  The 15_climate module calculates the resulting climate variables using MAGICC6.4, a python interface for simple climate models (OpenSCM), or a stylized box model that can be used within the optimization routine.
 *'
 *' @authors Jessica Strefler, Michaja Pehl, Christoph Bertram
 
@@ -16,5 +16,6 @@
 $Ifi "%climate%" == "box" $include "./modules/15_climate/box/realization.gms"
 $Ifi "%climate%" == "magicc" $include "./modules/15_climate/magicc/realization.gms"
 $Ifi "%climate%" == "off" $include "./modules/15_climate/off/realization.gms"
+$Ifi "%climate%" == "openscm" $include "./modules/15_climate/openscm/realization.gms"
 *###################### R SECTION END (MODULETYPES) ############################
 *** EOF ./modules/15_climate/15_climate.gms
