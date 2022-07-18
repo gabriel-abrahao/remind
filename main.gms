@@ -87,7 +87,7 @@
 * 
 * Input data revision: 6.311
 * 
-* Last modification (input data): Thu Jun 23 10:11:30 2022
+* Last modification (input data): Fri Jul 15 14:20:18 2022
 * 
 *###################### R SECTION END (VERSION INFO) ###########################
 
@@ -308,6 +308,9 @@ parameters
   cm_carbonprice_temperatureLimit "not-to-exceed temperature target in degree above pre-industrial"
   cm_frac_CCS          "tax on CCS to reflect risk of leakage, formulated as fraction of ccs O&M costs"
   cm_frac_NetNegEmi    "tax on CDR to reflect risk of overshooting, formulated as fraction of carbon price"
+  
+  c_nonco2_macc_version    "Source of MACs to use (PBL_2007 or PBL_2019 or PBL_2022)"
+  c_nonco2_macc_scenario    "MACs scenario to use (Default, Optimistic, Pessimistic) if c_nonco2_macc_version is PBL_2022"
   
   cm_DiscRateScen          "Scenario for the implicit discount rate applied to the energy efficiency capital"
   cm_noReboundEffect      "Switch for allowing a rebound effect when closing the efficiency gap (cm_DiscRateScen)"
