@@ -520,8 +520,8 @@ $setGlobal c_regi_synfuelscen  all !! def = all
 $setGlobal c_regi_sensscen  all !! def = all
 
 * Switches to choose MACCs version and scenarios
-$setGlobal c_nonco2_macc_version     PBL_2007    !! def = PBL_2007
-$setGlobal c_nonco2_macc_scenario   Default     !! def = Default
+$setGlobal c_nonco2_macc_version  PBL_2022    !! def = PBL_2007
+$setGlobal c_nonco2_macc_scenario  Pessimistic     !! def = Default
 																	  
 cm_biotrade_phaseout = 0; !! def 0
 cm_bioprod_histlim = -1; !! def -1	

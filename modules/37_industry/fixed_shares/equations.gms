@@ -79,7 +79,7 @@ q37_cementCCS(ttot,regi)$( ttot.val ge cm_startyear
 *' For the calculation, consider this figure:
 *' ![MAC curve example](MAC_costs.png)
 *' To make the calculations involving MAC curves leaner, they are discretised 
-*' into 5 $/tC steps (parameter `sm_dmac`) and transformed into step-wise 
+*' into 5 $/tC steps (or other value, see parameter `sm_dmac`) and transformed into step-wise 
 *' curves.  The parameter `pm_macStep` holds the current step on the MAC curve
 *' the model is on (given the CO~2~ price of the last iteration), and 
 *' `pm_macAbat` holds the abatement level (as a fraction) on that step.  The 
