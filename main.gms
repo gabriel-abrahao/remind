@@ -308,10 +308,7 @@ parameters
   cm_carbonprice_temperatureLimit "not-to-exceed temperature target in degree above pre-industrial"
   cm_frac_CCS          "tax on CCS to reflect risk of leakage, formulated as fraction of ccs O&M costs"
   cm_frac_NetNegEmi    "tax on CDR to reflect risk of overshooting, formulated as fraction of carbon price"
-  
-  c_nonco2_macc_version    "Source of MACs to use (PBL_2007 or PBL_2019 or PBL_2022)"
-  c_nonco2_macc_scenario    "MACs scenario to use (Default, Optimistic, Pessimistic) if c_nonco2_macc_version is PBL_2022"
-  
+   
   cm_DiscRateScen          "Scenario for the implicit discount rate applied to the energy efficiency capital"
   cm_noReboundEffect      "Switch for allowing a rebound effect when closing the efficiency gap (cm_DiscRateScen)"
   cm_INNOPATHS_priceSensiBuild    "Price sensitivity of energy carrier choice in buildings"
@@ -522,8 +519,9 @@ $setGlobal c_regi_capturescen  all !! def = all
 $setGlobal c_regi_synfuelscen  all !! def = all
 $setGlobal c_regi_sensscen  all !! def = all
 
-
-
+* Switches to choose MACCs version and scenarios
+$setGlobal c_nonco2_macc_version     PBL_2007    !! def = PBL_2007
+$setGlobal c_nonco2_macc_scenario   Default     !! def = Default
 																	  
 cm_biotrade_phaseout = 0; !! def 0
 cm_bioprod_histlim = -1; !! def -1	
