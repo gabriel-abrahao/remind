@@ -20,6 +20,22 @@ $offdelim
 p11_emiFacAP(ttot,regi,enty,enty2,te,sectorEndoEmi,emisForEmiFac)$(ttot.val ge 2005) = 0.0;
 p11_emiFacAP(ttot,regi,enty,enty2,te,sectorEndoEmi,emisForEmiFac)$(ttot.val ge 2005) = f11_emiFacAP(ttot,regi,enty,enty2,te,sectorEndoEmi,emisForEmiFac,"%cm_APscen%");
 
+* GA: Steps for getting AP agricultural data from MagPIE:
+* Get rid of f11_emiAPexoAgricult
+* Replace it with reading f_macBaseMagpie and f_macBaseMagpie_coupling, which will now contain also the AP variables
+* Create two new sets:
+* emiAPLanduse, with all the landuse AP species that will be read from MAgPIE and the old table in mrremind
+* emiAPLanduseMAgPIE, a subset of emiAPLanduse which contains the AP scpecies that are directly provided in the 
+* MAgPIE mif (as opposed to the ones in the old magpie table in madrat). 
+* The code here below will then:
+* Replace reading f11_emiAPexoAgricult with subsetting f_macBaseMagpie (or it's new name) over emiAPLanduse and store it in p11_emiAPexoAgricult, while also subsetting the right RCP
+* If coupling is on, read f_macBaseMagpie_coupling on top of the existing p11_emiAPexoAgricult, but now only over emiAPLanduseMAgPIE
+
+* Since there's the addtional all_exogEmi (e.g. "AgWasteBurning"), a previous step will be to add a new enty for each species-all_exogEmi combination
+* e.g. nh3agwasteburning. This will be what will be used in the structure of f_macBaseMagpie (and friend). So here we will need a mapping
+* from those entys to their species and all_exogEmi (e.g. nh3agwasteburning.NH3.AgWasteBurning, but done right). Then here we apply this mapping
+* somehow before populating p11_emiAPexoAgricult, so we don't have to touch it's structure.
+
 *** load emission data from land use change
 parameter f11_emiAPexoAgricult(tall,all_regi,all_enty,all_exogEmi,all_rcp_scen)     "ECLIPSE emission factors of air pollutants"
 /
