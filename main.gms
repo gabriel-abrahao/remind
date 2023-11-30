@@ -1660,7 +1660,9 @@ $setglobal cm_demScen  gdp_SSP2EU     !! def = gdp_SSP2EU
 $setGlobal c_scaleEmiHistorical  on  !! def = on  !! regexp = off|on
 $SetGlobal cm_quick_mode  off          !! def = off  !! regexp = off|on
 $setGLobal cm_debug_preloop  off    !! def = off  !! regexp = off|on
+*' Air Pollution scenario, used to pick emission factors for air pollutants in exoGAINS. Scenarios available: SSP1, SSP2, SSP3, SSP4, SSP5
 $setGlobal cm_APscen  SSP2          !! def = SSP2
+*' 
 $setglobal cm_CES_configuration  indu_subsectors-buil_simple-tran_edge_esm-POP_pop_SSP2EU-GDP_gdp_SSP2EU-En_gdp_SSP2EU-Kap_debt_limit-Reg_62eff8f7   !! this will be changed by start_run()
 $setglobal c_CES_calibration_iterations  10     !!  def  =  10
 $setglobal c_CES_calibration_industry_FE_target  1
