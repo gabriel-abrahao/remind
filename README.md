@@ -15,19 +15,23 @@ The macro-economic core of REMIND is a Ramsey-type optimal growth model
 in which intertemporal global welfare is optimized subject to equilibrium constraints.
 
 ## DOCUMENTATION
-The model documentation for version 3.0.0 can be found at https://rse.pik-potsdam.de/doc/remind/3.0.0 .
+
+A model description paper on REMIND 2.1 has been published in Geoscientific Model Development (GMD): https://doi.org/10.5194/gmd-14-6571-2021 .
+
+The model documentation for version 3.2.0 can be found at https://rse.pik-potsdam.de/doc/remind/3.2.0 .
 
 The most recent version of the documentation can also be extracted from the
 model source code via the R package goxygen
-(https://github.com/pik-piam/goxygen). To extract the documentation, install the
-package and run the main function `(goxygen(unitPattern = c("\\[","\\]"), includeCore=T, max_num_edge_labels="adjust", max_num_nodes_for_edge_labels = 15))`
+(https://github.com/pik-piam/goxygen). To extract the documentation, run `make docs`
 in the main folder of the model.
-The resulting documentation can be found in the folder "doc".
+The resulting documentation can be found in the folder `doc/`.
 
 Please pay attention to the REMIND Coding Etiquette when you modify the code
 (if you plan on contributing to the REMIND official repository).
 The Coding Etiquette is found in the documentation section of the file main.gms.
 It explains also the used name conventions and other structural characteristics.
+To automatically check if some aspects of the coding etiquette, you can run
+`make check` in the main folder of the model.
 
 ## TUTORIALS
 
@@ -36,7 +40,7 @@ Tutorials can be found in the form of markdown files in the repository:
 https://github.com/remindmodel/remind/tree/develop/tutorials
 
 ## COPYRIGHT
-Copyright 2006-2022 Potsdam Institute for Climate Impact Research (PIK)
+Copyright 2006-2023 Potsdam Institute for Climate Impact Research (PIK)
 
 ## LICENSE
 This program is free software: you can redistribute it and/or modify
@@ -64,20 +68,17 @@ and memory. Recommended is a machine with Windows, MacOS or Linux, with at least
 16GB of memory and a Core i7 CPU or similar.
 
 ## HOW TO INSTALL
-
-Please refer to the [installation guide](tutorials/1_GettingREMIND.md).
-
+Please refer to the [installation guide](tutorials/01_GettingREMIND.md).
 
 ## HOW TO CONFIGURE
-Model run settings are set in `config/default.cfg` (or another config file of
+Model run settings are set in `config/default.cfg` and `main.gms` (or another config file of
 the same structure). New model scenarios can be created by adding a row to
 `config/scenario_config.csv`
 
 ## HOW TO RUN
-To run the model execute `Rscript start.R` (or `source("start.R")` from within
-R) in the main folder of the model.
-Make sure that the config file has been set correctly before
-starting the model.
+Please refer to the tutorials on how to
+[use the default settings](tutorials/02_RunningREMIND.md) and how to
+[run multiple scenarios](tutorials/03_RunningBundleOfRuns.md).
 
 ## HOW TO CONTRIBUTE
 We are interested in working with you! Contact us through GitHub
@@ -154,4 +155,4 @@ to cite the model.
 See list of authors in CITATION.cff
 
 ## CHANGELOG
-See log on GitHub (https://github.com/remindmodel)
+See [CHANGELOG.md](CHANGELOG.md) on GitHub.

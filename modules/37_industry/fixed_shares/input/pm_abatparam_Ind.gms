@@ -1,4 +1,4 @@
-*** |  (C) 2006-2022 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2006-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of REMIND and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -9,6 +9,10 @@
 loop ((ttot,steps)$( ttot.val ge 2005 ),
 
   sm_tmp = steps.val * sm_dmac / sm_C_2_CO2;   !! CO2 price at MAC step [$/tCO2] 
+
+$ifthen NOT "%cm_Industry_CCS_markup%" == "off"
+  sm_tmp = sm_tmp / %cm_Industry_CCS_markup%;
+$endif
 
   !! short-term (until 2025)
   if (ttot.val le 2025,

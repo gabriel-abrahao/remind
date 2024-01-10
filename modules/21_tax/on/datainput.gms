@@ -1,4 +1,4 @@
-*** |  (C) 2006-2022 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2006-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of REMIND and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -104,8 +104,6 @@ p21_tau_pe2se_sub(tall,regi,te)= 0;
 *RP* FILE changed by hand after introduction of SO2 taxes and inconvenience penalties on 2012-03-08
 *GL* Values try to account for excessive water use, further pollution
 *GL* Taxes are given in USD(2005) per GJ 
-p21_tau_pe2se_tax(ttot,regi,"pcc")$(ttot.val ge 2005)        = 0.25;
-p21_tau_pe2se_tax(ttot,regi,"pco")$(ttot.val ge 2005)        = 0.25;
 p21_tau_pe2se_tax(ttot,regi,"igcc")$(ttot.val ge 2005)       = 0.25;
 p21_tau_pe2se_tax(ttot,regi,"igccc")$(ttot.val ge 2005)      = 0.25;
 p21_tau_pe2se_tax(ttot,regi,"coalftrec")$(ttot.val ge 2005)  = 1.0;
@@ -140,27 +138,6 @@ $offdelim
 p21_tau_xpres_tax(ttot,regi,"peoil")$(ttot.val ge 2005) = p21_tau_xpres_tax(ttot,regi,"peoil") * sm_DpGJ_2_TDpTWa;
 *LB* use 0 for all regions as default
 p21_tau_xpres_tax(ttot,regi,all_enty) = 0;
-
-
-*** --------------------
-*** CO2 prices
-*** --------------------    
-*IM* for tax case: future CO2-tax paths are given in different module/45_carbonprice realizations
-*RP* historic (2010, 2015) CO2 prices are defined here
-parameter f21_taxCO2eqHist(ttot,all_regi)        "historic CO2 prices ($/tCO2)"
-/
-$ondelim
-$include "./modules/21_tax/on/input/pm_taxCO2eqHist.cs4r"
-$offdelim
-/
-;
-
-** Fixing European 2020 carbon price to 20€/t CO2 (other regions to zero)
-f21_taxCO2eqHist("2020",regi) = 0;
-f21_taxCO2eqHist("2020",regi)$(regi_group("EUR_regi",regi)) =  20;
-
-*** convert from $/tCO2 to T$/GtC
-pm_taxCO2eqHist(t,regi) = f21_taxCO2eqHist(t,regi) * sm_DptCO2_2_TDpGtC;
 
 *JeS for SO2 tax case: tax path in 10^12$/TgS (= 10^6 $/t S) @ GDP/cap of 1000$/cap  (value gets scaled by GDP/cap)
 if((cm_so2tax_scen eq 0),
@@ -223,10 +200,21 @@ elseif (cm_DiscRateScen eq 4),
 );
 
 
-*** FS: bioenergy import tax level
-*** EU subregions pay cm_BioImportTax_EU of the world market price in addition after 2030 due to sustainability concerns in the Global South
-p21_tau_BioImport(t,regi) = 0;
-p21_tau_BioImport(t,regi)$(regi_group("EUR_regi",regi) AND t.val ge 2030) = cm_BioImportTax_EU;
+*** FS: import tax level
+*** works only on PEs at the moment as implementation requires pm_pvp
+*** which is only available for the commodities of the nash markets
+*** zero by default
+p21_tau_Import(t,regi,tradePe,tax_import_type_21) = 0;
+*** read in import tax values from switch cm_import_tax
+$ifThen.import not "%cm_import_tax%" == "off" 
+loop((ext_regi,tradePe,tax_import_type_21)$(p21_import_tax(ext_regi,tradePe,tax_import_type_21)),
+  loop(regi$regi_groupExt(ext_regi,regi),
+    p21_tau_Import(t,regi,tradePe,tax_import_type_21) =  p21_import_tax(ext_regi,tradePe,tax_import_type_21)
+  );
+);
+$endif.import
+display p21_tau_Import;
+
 
 *** sector-specific CO2 tax markup. Loop over ext_regi to set GLO values to individual countries etc.
 $ifThen.cm_CO2TaxSectorMarkup not "%cm_CO2TaxSectorMarkup%" == "off"
@@ -234,15 +222,29 @@ Parameter
   p21_extRegiCO2TaxSectorMarkup(ext_regi,emi_sectors) "CO2 tax markup in building, industry or transport sector (extended regions)" / %cm_CO2TaxSectorMarkup% /
 ;
   loop((ext_regi,emi_sectors)$p21_extRegiCO2TaxSectorMarkup(ext_regi,emi_sectors),
-    p21_CO2TaxSectorMarkup(regi,emi_sectors)$(regi_group(ext_regi,regi)) = p21_extRegiCO2TaxSectorMarkup(ext_regi,emi_sectors);
+    p21_CO2TaxSectorMarkup(ttot,regi,emi_sectors)$(regi_group(ext_regi,regi) AND ttot.val ge cm_startyear) = p21_extRegiCO2TaxSectorMarkup(ext_regi,emi_sectors);
   );
 $else.cm_CO2TaxSectorMarkup
-  p21_CO2TaxSectorMarkup(regi,emi_sectors) = 0;
+  p21_CO2TaxSectorMarkup(ttot,regi,emi_sectors)$(ttot.val ge cm_startyear) = 0;
 ;
 $endIf.cm_CO2TaxSectorMarkup
 
 *** by default PE tax is zero
 pm_tau_pe_tax(ttot,regi,all_enty) = 0;
 
+*** by default CES tax is zero
+pm_tau_ces_tax(ttot,regi,all_in) = 0;
+
+
+*** Read in bioenergy emission factor that is used to compute the emission-
+*** factor-based bioenergy tax and convert from kgCO2 per GJ to GtC per TWa.
+p21_bio_EF(ttot,all_regi) = 0;
+p21_bio_EF(ttot,regi_bio_EFTax21) = cm_bioenergy_EF_for_tax * (1/1000 * 12/44) / (sm_EJ_2_TWa);
+
+*** Read in direct investments into renewables from reference scenario
+$ifthen.importtaxrc %cm_taxrc_RE% == "REdirect"
+Execute_Loadpoint 'input_ref' p21_ref_costInvTeDir_RE = vm_costInvTeDir.l;
+Execute_Loadpoint 'input_ref' p21_ref_costInvTeAdj_RE = vm_costInvTeAdj.l;
+$endif.importtaxrc
 
 *** EOF ./modules/21_tax/on/datainput.gms

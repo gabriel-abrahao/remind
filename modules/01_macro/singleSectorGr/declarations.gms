@@ -1,4 +1,4 @@
-*** |  (C) 2006-2022 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2006-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of REMIND and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -32,7 +32,6 @@ vm_cons(ttot,all_regi)                                          "Consumption"
 vm_cesIO(tall,all_regi,all_in)                                  "Production factor" 
 vm_invMacro(ttot,all_regi,all_in)                               "Investment for capital for ttot"
 v01_invMacroAdj(ttot,all_regi,all_in)                           "Adjustment costs of macro economic investments"
-vm_invRD(ttot,all_regi,all_in)                                  "R&D investments"
 vm_invInno(ttot,all_regi,all_in)                                "Investment into innovation"
 vm_invImi(ttot, all_regi,all_in)                                "Investment into imitation"     
 
