@@ -1199,6 +1199,10 @@ $setglobal c_tech_earlyreti_rate  GLO.(biodiesel 0.14, bioeths 0.14), EUR_regi.(
 ***  (SSP2): emissions (from SSP2 scenario in MAgPIE)
 ***  (SSP5): emissions (from SSP5 scenario in MAgPIE)
 ***  (SDP):
+*** Switches to choose Marginal Abatement Cost Curves (MACCs) version and scenarios (Default, Pessismistic, Optimistic)
+$setGlobal c_nonco2_macc_version  PBL_2022    !! def = PBL_2007
+$setGlobal c_nonco2_macc_scenario  Pessimistic     !! def = Default
+*** Prescribed landuse emissions scenario
 $setglobal cm_LU_emi_scen  SSP2   !! def = SSP2  !! regexp = SSP(1|2|5)|SDP
 *** cm_regi_bioenergy_EFTax  "region(s) in which bioenergy is charged with an emission-factor-based tax"
 ***  This switch has only an effect if 21_tax is on and cm_bioenergy_EF_for_tax
@@ -1376,23 +1380,29 @@ $setglobal cm_regNetNegCO2  on       !! def = on
 ***  ("HydrHype4") similar to Mix4 but with a strong focus on FCEVs in both passenger and freight sectors.
 ***  This information has been added on 4.10.22. Please contact the transport sector experts for more detail.
 $setGlobal cm_EDGEtr_scen  Mix1  !! def = Mix1
-
-$setGlobal c_regi_nucscen  all !! def = all
-$setGlobal c_regi_capturescen  all !! def = all
-$setGlobal c_regi_synfuelscen  all !! def = all
-$setGlobal c_regi_sensscen  all !! def = all
-
-* Switches to choose MACCs version and scenarios
-$setGlobal c_nonco2_macc_version  PBL_2022    !! def = PBL_2007
-$setGlobal c_nonco2_macc_scenario  Pessimistic     !! def = Default
-
-																	  
-cm_biotrade_phaseout = 0; !! def 0
-cm_bioprod_histlim = -1; !! def -1	
-
-cm_H2targets = 0; !! def 0
-
-*** EU import switches
+*** industry
+*** maximum secondary steel share
+$setglobal cm_steel_secondary_max_share_scenario  off !! def off , switch on for maximum secondary steel share
+*** cm_import_tax
+*** set tax on imports for specific regions on traded energy carriers
+*** as a fraction of import price
+*** example: "EUR.pebiolc.worldPricemarkup 0.5" means bioenergy imports to EUR see 50% tax on top of world market price.
+*** If you specify a value for a region within a region group (e.g. DEU in EU27_regi),
+*** then the values from the region group disaggregation will be overwritten by this region-specific value.
+*** For example: "DEU.pegas.worldPricemarkup 3, EU27_regi.pegas.worldPricemarkup 1.5".
+*** Other options are taxCO2markup and avtaxCO2markup that tax imported CO2 emission (i.e emissions associated to imports of energy carriers)
+*** with the national CO2 price (CO2taxmarkup) or the max between national and average CO2 price (avCO2taxmarkup).
+*** Example: "GLO.(pecoal,pegas,peoil).CO2taxmarkup 1" implements a global CO2 tax markup for imports.
+*** Using different markups for each fossil PE is not recommended, "Price|Carbon|Imported" will then report an unweighted average.
+*** NOTE: In case of "CO2taxmarkup" and "avCO2taxmarkup" there is double-taxation of the CO2-content of the imported energy carrier:
+*** Once when being imported (at the border) and once when being converted to Secondary Energy (normal CO2price applied by REMIND)
+*** In combination with endogenous carbon pricing, the import tax will lead to lower overall carbon prices. Can be solved by setting carbonprice to exogenous (config).
+$setGlobal cm_import_tax off !! def = off  !! regexp = .*(worldPricemarkup|CO2taxmarkup|avCO2taxmarkup|off).*
+*** cm_import_EU                "EU switch for different scenarios of EU SE import assumptions"
+*** EU-specific SE import assumptions (used for ariadne)
+*** different exogenous hydrogen import scenarios for EU regions (developed in ARIADNE project)
+*** "bal", "low_elec", "high_elec", "low_h2", "high_h2", "low_synf", "high_synf"
+*** see 24_trade/se_trade/datainput for H2 import assumptions, this switch only works if the trade realization "se_trade" is selected
 $setGlobal cm_import_EU  off !! def off
 *** cm_import_ariadne        "Germany-specific H2 imports assumptions for Ariadne project (needs cm_import_EU to be on)"
 *** def <- "off", if import assumptions for Germany in Ariadne project -> switch to "on"
