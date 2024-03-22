@@ -4,7 +4,7 @@
 *** |  AGPL-3.0, you are granted additional permissions described in the
 *** |  REMIND License Exception, version 1.0 (see LICENSE file).
 *** |  Contact: remind@pik-potsdam.de
-*** SOF ./modules/15_climate/magicc/postsolve.gms
+*** SOF ./modules/15_climate/ar6/postsolve.gms
 
 ***---------------------------------------------------------------------------
 *' The MAGICC scenario generation is set in `./core/magicc.gms`, but runs here.
@@ -62,7 +62,6 @@ display pm_gmt_conv;
 *** save temp from last iteration
 p15_gmt0(tall) = pm_globalMeanTemperature(tall);
 
-$endif.cm_magicc_calibrateTemperature2000
 
 *** offset from HADCRUT4 to zero temperature in 1900, instead of the default 1870 (20 year averages each).
 pm_globalMeanTemperatureZeroed1900(tall)  = pm_globalMeanTemperature(tall) + 0.092; 
@@ -162,4 +161,4 @@ if (cm_iterative_target_adj eq 2, !! otherwise adjustment happens in core/postso
     );
 );
 *' @stop
-*** EOF ./modules/15_climate/magicc/postsolve.gms
+*** EOF ./modules/15_climate/ar6/postsolve.gms
