@@ -54,6 +54,8 @@ display s15_tempOffset2010;
 pm_globalMeanTemperature(tall) = pm_globalMeanTemperature(tall) - s15_tempOffset2010 + 0.97;
 display pm_globalMeanTemperature;
 
+$endif.cm_magicc_calibrateTemperature2000
+
 *** temperature convergence indicator
 pm_gmt_conv = 100*smax(t,abs(pm_globalMeanTemperature(t)/max(p15_gmt0(t),1e-8) -1));
 display pm_gmt_conv;
